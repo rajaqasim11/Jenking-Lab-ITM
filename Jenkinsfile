@@ -1,8 +1,8 @@
 pipeline {
     agent none
     environment {
-        AWS_ACCESS_KEY_ID     = credentials('AKIA6LGJSU6GMNQT4RPB').AWS_ACCESS_KEY_ID.toString()
-        AWS_SECRET_ACCESS_KEY = credentials('AKIA6LGJSU6GMNQT4RPB').AWS_SECRET_ACCESS_KEY.toString()
+        AWS_ACCESS_KEY_ID     = credentials('986117744524').AWS_ACCESS_KEY_ID.toString()
+        AWS_SECRET_ACCESS_KEY = credentials('986117744524').AWS_SECRET_ACCESS_KEY.toString()
 
         S3_BUCKET             = 'qasim-resume-website'
         SERVER_IP             = '54.196.61.65'
