@@ -1,5 +1,13 @@
 pipeline {
     agent none
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AKIA6LGJSU6GMNQT4RPB').AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY = credentials('AKIA6LGJSU6GMNQT4RPB').AWS_SECRET_ACCESS_KEY
+        S3_BUCKET             = 'qasim-resume-website'
+        SERVER_IP             = '54.196.61.65'
+        SERVER_USER           = 'your-server-username'
+        SERVER_DESTINATION    = '/opt/calc'
+    }
     stages {
         stage('Build') {
             agent {
@@ -38,6 +46,26 @@ pipeline {
             post {
                 success {
                     archiveArtifacts 'dist/add2vals'
+                }
+            }
+        }
+        stage('Upload to S3') {
+            agent any
+            steps {
+                script {
+                    withAWS(region: 'us-east-1', credentials: 'AKIA6LGJSU6GMNQT4RPB') {
+                        s3Upload(bucket: S3_BUCKET, workingDir: 'dist', includePathPattern: '**/*')
+                    }
+                }
+            }
+        }
+        stage('Deploy to Server') {
+            agent any
+            steps {
+                script {
+                    sshagent(['AKIA6LGJSU6GMNQT4RPB']) {
+                        sh "scp -o StrictHostKeyChecking=no -r dist/add2vals ${SERVER_USER}@${SERVER_IP}:${SERVER_DESTINATION}"
+                    }
                 }
             }
         }
