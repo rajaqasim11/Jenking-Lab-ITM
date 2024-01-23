@@ -5,7 +5,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AKIA6LGJSU6GMNQT4RPB').AWS_SECRET_ACCESS_KEY
         S3_BUCKET             = 'qasim-resume-website'
         SERVER_IP             = '54.196.61.65'
-        SERVER_USER           = 'your-server-username'
+        SERVER_USER           = 'root'
         SERVER_DESTINATION    = '/opt/calc'
     }
     stages {
